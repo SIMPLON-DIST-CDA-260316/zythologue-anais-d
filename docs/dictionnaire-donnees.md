@@ -58,3 +58,9 @@
 |-----------------|-------------|------|--------|--------------------------|---------------|
 | ingredient_id | L'identifiant de l'ingrédient | INT | 10 | Obligatoire | Identifiant unique |
 | name_ingredient | Le nom de l'ingrédient | VARCHAR | 20 | Obligatoire | |
+
+## Favori
+
+| Code mnémonique | Désignation | Type | Taille | Obligatoire / Facultatif | Règles métier |
+|-----------------|-------------|------|--------|--------------------------|---------------|
+| favorite_id | L'identifiant du favori | INT | 10 | Obligatoire | Identifiant unique |
