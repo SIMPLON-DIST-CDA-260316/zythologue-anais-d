@@ -8,6 +8,7 @@ CREATE TABLE users(
    password_user VARCHAR(255) NOT NULL,
    role_user VARCHAR(10) NOT NULL DEFAULT 'user',
    birth_date_user DATE NOT NULL,
+   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY(user_id),
    UNIQUE(nickname_user),
    UNIQUE(photo_profil_user),
@@ -43,10 +44,12 @@ CREATE TABLE beer(
    name_beer VARCHAR(50) NOT NULL,
    resume_beer TEXT,
    with_alcohol BOOLEAN NOT NULL DEFAULT true,
+   rate_alcohol DECIMAL(4,1) NOT NULL,
    category_id INT,
    brewery_id INT NOT NULL,
    PRIMARY KEY(beer_id),
    UNIQUE(name_beer),
+   CHECK(rate_alcohol >= 0 AND rate_alcohol <= 10),
    FOREIGN KEY(category_id) REFERENCES category(category_id) ON DELETE SET NULL,
    FOREIGN KEY(brewery_id) REFERENCES brewery(brewery_id) ON DELETE CASCADE
 );
