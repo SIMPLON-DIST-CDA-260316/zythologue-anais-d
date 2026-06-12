@@ -91,3 +91,32 @@ CREATE TABLE add_to_favorite(
    FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE,
    FOREIGN KEY(beer_id) REFERENCES beer(beer_id) ON DELETE CASCADE
 );
+
+-- Bonus 2
+-- table indépendante car table de log donc pas de clé étrangère
+CREATE TABLE beer_log(
+   log_id SERIAL,
+   log_create_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   beer_name_log VARCHAR(50),
+   action_log VARCHAR(10) NOT NULL DEFAULT 'INSERT'
+);
+
+-- creation de la fonction du trigger
+CREATE OR REPLACE FUNCTION log_insert_beer()
+RETURNS TRIGGER AS $$
+BEGIN
+   INSERT INTO beer_log(beer_name_log, action_log)
+   VALUES (NEW.name_beer, 'INSERT');
+   RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- creation du trigger
+CREATE TRIGGER trigger_log_new_beer
+AFTER INSERT ON beer
+FOR EACH ROW
+EXECUTE FUNCTION log_insert_beer();
+
+-- test trigger
+INSERT INTO beer (name_beer, resume_beer, with_alcohol, rate_alcohol, category_id, brewery_id)
+VALUES ('La Test', 'Une bière de test', true, 5.0, 1, 1);
