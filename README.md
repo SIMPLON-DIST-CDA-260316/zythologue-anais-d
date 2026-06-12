@@ -5,6 +5,20 @@ consulter leurs caractéristiques et ingrédients, laisser des avis, gérer des 
 
 ---
 
+## Cloner le repo
+
+```bash
+git clone https://github.com/SIMPLON-DIST-CDA-260316/zythologue-anais-d.git
+cd zythologue-anais-d
+```
+
+> Copiez le fichier `.env.example` et renommez-le `.env`, puis renseignez vos identifiants :
+> ```bash
+> cp .env.example .env
+> ```
+
+---
+
 ## Lancement de l'environnement Docker
 
 Lancer PostgreSQL :
@@ -36,8 +50,8 @@ docker compose down -v
 | Hôte | localhost |
 | Port | 5433 |
 | Base de données | zythologue |
-| Utilisateur | voir `.env` |
-| Mot de passe | voir `.env` |
+| Utilisateur | voir le fichier `.env` |
+| Mot de passe | voir le fichier `.env` |
 
 ---
 
