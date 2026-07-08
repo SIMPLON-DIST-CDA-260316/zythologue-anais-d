@@ -13,5 +13,10 @@
     "docker:logs": "docker compose logs -f",
     "docker:ps": "docker compose ps",
     "docker:config": "docker compose config"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "pg": "^8.22.0",
+    "zod": "^4.4.3"
   }
 }
