@@ -1,5 +1,5 @@
 CREATE TABLE users(
-   user_id SERIAL,
+   user_id IDENTITY,
    firstname_user VARCHAR(50),
    lastname_user VARCHAR(50),
    nickname_user VARCHAR(50) NOT NULL,
@@ -17,13 +17,13 @@ CREATE TABLE users(
 );
 
 CREATE TABLE category(
-   category_id SERIAL,
+   category_id IDENTITY,
    name_category VARCHAR(50) NOT NULL,
    PRIMARY KEY(category_id)
 );
 
 CREATE TABLE brewery(
-   brewery_id SERIAL,
+   brewery_id IDENTITY,
    brewery_name VARCHAR(50) NOT NULL,
    brewery_country VARCHAR(50) NOT NULL,
    brewery_adress VARCHAR(255),
@@ -34,13 +34,13 @@ CREATE TABLE brewery(
 );
 
 CREATE TABLE ingredient(
-   ingredient_id SERIAL,
+   ingredient_id IDENTITY,
    ingredient_name VARCHAR(50) NOT NULL,
    PRIMARY KEY(ingredient_id)
 );
 
 CREATE TABLE beer(
-   beer_id SERIAL,
+   beer_id IDENTITY,
    name_beer VARCHAR(50) NOT NULL,
    resume_beer TEXT,
    with_alcohol BOOLEAN NOT NULL DEFAULT true,
@@ -55,7 +55,7 @@ CREATE TABLE beer(
 );
 
 CREATE TABLE opinion(
-   opinion_id SERIAL,
+   opinion_id IDENTITY,
    resume_opinion TEXT,
    note_opinion INT NOT NULL,
    brewery_id INT,
@@ -69,7 +69,7 @@ CREATE TABLE opinion(
 );
 
 CREATE TABLE image(
-   image_id SERIAL,
+   image_id IDENTITY,
    pathname_image VARCHAR(255) NOT NULL,
    beer_id INT NOT NULL,
    PRIMARY KEY(image_id),
@@ -95,7 +95,7 @@ CREATE TABLE add_to_favorite(
 -- Bonus 2
 -- table indépendante car table de log donc pas de clé étrangère
 CREATE TABLE beer_log(
-   log_id SERIAL,
+   log_id IDENTITY,
    log_create_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
    beer_name_log VARCHAR(50),
    action_log VARCHAR(10) NOT NULL DEFAULT 'INSERT'
