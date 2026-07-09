@@ -1,4 +1,5 @@
 const beerRepository = require('../repositories/beer-repository');
+const { createBeerSchema } = require('../validators/beer-validator');
 
 async function getAllBeers(req, res, next) {
   try {
@@ -28,4 +29,23 @@ async function getOneBeer(req, res, next) {
   }
 };
 
-module.exports = { getAllBeers, getOneBeer };
+async function createBeer(req, res, next) {
+  try {
+    const newBeer = req.body
+
+    // validation zod
+    const result = createBeerSchema.safeParse(newBeer)
+    if (!result.success) {
+      res.status(400).json({ message: 'Les informations entrées sont incorrectes', errors: result.error });
+      return;
+    }
+
+    await beerRepository.createBeer(result.data);
+    res.status(201).json({ message: 'La bière a bien été enregistrée', data: result.data });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getAllBeers, getOneBeer, createBeer };

@@ -16,7 +16,7 @@ app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use(beerRoutes);
+app.use("/beers", beerRoutes);
 
 // Erreur
 app.use((error, req, res, next) => {
