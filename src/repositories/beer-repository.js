@@ -47,7 +47,7 @@ async function createBeer(newBeer) {
 async function updateBeer(id, updatedBeer) {
   try {
 
-   const { name_beer, resume_beer, with_alcohol, rate_alcohol, category_id, brewery_id } = updatedBeer;
+    const { name_beer, resume_beer, with_alcohol, rate_alcohol, category_id, brewery_id } = updatedBeer;
 
     const result = await pool.query(
       `UPDATE beer SET
@@ -71,4 +71,18 @@ async function updateBeer(id, updatedBeer) {
 };
 
 
-module.exports = { getAllBeers, getOneBeer, createBeer, updateBeer };
+// Fonction qui va supprimer une bière
+async function deleteBeer(id) {
+  try {
+
+    const result = await pool.query('DELETE FROM beer WHERE beer_id = $1 RETURNING *', [id]);
+    return result.rows[0];
+
+  } catch (error) {
+    console.error('Erreur lors de la suppression de la bière :', error.message);
+    throw error;
+  }
+};
+
+
+module.exports = { getAllBeers, getOneBeer, createBeer, updateBeer, deleteBeer };

@@ -71,4 +71,21 @@ async function updateBeer(req, res, next) {
   }
 };
 
-module.exports = { getAllBeers, getOneBeer, createBeer, updateBeer };
+
+async function deleteBeer(req, res, next) {
+  try {
+    const id = req.params.id;
+
+    const result = await beerRepository.deleteBeer(id);
+    if (!result) {
+      res.status(404).json({ message: 'La bière ne peut être supprimée car elle n\'existe pas' });
+      return;
+    }
+    res.status(200).json({ message: 'La bière a bien été suppimée' });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getAllBeers, getOneBeer, createBeer, updateBeer, deleteBeer };

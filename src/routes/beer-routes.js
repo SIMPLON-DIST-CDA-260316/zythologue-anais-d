@@ -219,6 +219,133 @@ router.get('/:id', beerController.getOneBeer);
  */
 router.post('/', beerController.createBeer);
 
+/**
+ * @swagger
+ * /beers/{id}:
+ *   patch:
+ *     summary: Modifier une bière existante
+ *     tags: [Beers]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name_beer
+ *               - rate_alcohol
+ *               - brewery_id
+ *             properties:
+ *               name_beer:
+ *                 type: string
+ *                 minLength: 2
+ *                 maxLength: 50
+ *                 pattern: "^[a-zA-ZÀ-ÿ0-9']+( [a-zA-ZÀ-ÿ0-9']+)*$"
+ *                 description: Lettres, chiffres, apostrophes et espaces (pas en début/fin)
+ *                 example: La Toulousaine
+ *               resume_beer:
+ *                 type: string
+ *                 maxLength: 350
+ *                 example: Une ambrée du Sud-Ouest
+ *               with_alcohol:
+ *                 type: boolean
+ *                 default: true
+ *                 example: true
+ *               rate_alcohol:
+ *                 type: number
+ *                 minimum: 0
+ *                 maximum: 10
+ *                 example: 6.2
+ *               category_id:
+ *                 type: integer
+ *                 example: 1
+ *               brewery_id:
+ *                 type: integer
+ *                 example: 1
+ *     responses:
+ *       200:
+ *         description: Bière modifiée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: La bière a bien été modifiée
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     with_alcohol:
+ *                       type: boolean
+ *                       example: false
+ *                     rate_alcohol:
+ *                       type: number
+ *                       example: 0.0
+ *                     brewery_id:
+ *                       type: integer
+ *                       example: 2
+ *       400:
+ *         description: Données invalides (règle de validation non respectée)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Les informations entrées sont incorrectes
+ *                 errors:
+ *                   type: object
+ *       404:
+ *         description: Aucune bière trouvée avec cet identifiant
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: La bière ne peut être modifiée car elle n'existe pas
+ *                 errors:
+ *                   type: object
+ *       500:
+ *         description: Erreur serveur
+ */
 router.patch('/:id', beerController.updateBeer);
+
+/**
+ * @swagger
+ * /beers/{id}:
+ *   delete:
+ *     summary: Supprimer une bière existante
+ *     tags: [Beers]
+ *     responses:
+ *       200:
+ *         description: Bière supprimée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: La bière a bien été supprimée
+ *       404:
+ *         description: Aucune bière trouvée avec cet identifiant
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: La bière ne peut être supprimée car elle n'existe pas
+ *                 errors:
+ *                   type: object
+ *       500:
+ *         description: Erreur serveur
+ */
+router.delete('/:id', beerController.deleteBeer);
 
 module.exports = router;
