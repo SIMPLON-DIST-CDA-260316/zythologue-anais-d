@@ -27,7 +27,7 @@ async function getOneBeer(id) {
   }
 };
 
-// Fonction qui va modifier une bière
+// Fonction qui va créer une bière
 async function createBeer(newBeer) {
   try {
     const { name_beer, resume_beer, with_alcohol, rate_alcohol, category_id, brewery_id } = newBeer;
@@ -43,4 +43,32 @@ async function createBeer(newBeer) {
   }
 };
 
-module.exports = { getAllBeers, getOneBeer, createBeer };
+// Fonction qui va modifier une bière
+async function updateBeer(id, updatedBeer) {
+  try {
+
+   const { name_beer, resume_beer, with_alcohol, rate_alcohol, category_id, brewery_id } = updatedBeer;
+
+    const result = await pool.query(
+      `UPDATE beer SET
+        name_beer = COALESCE($1, name_beer),
+        resume_beer = COALESCE($2, resume_beer),
+        with_alcohol = COALESCE($3, with_alcohol),
+        rate_alcohol = COALESCE($4, rate_alcohol),
+        category_id = COALESCE($5, category_id),
+        brewery_id = COALESCE($6, brewery_id)
+      WHERE beer_id = $7
+      RETURNING *`,
+      [name_beer, resume_beer, with_alcohol, rate_alcohol, category_id, brewery_id, id]
+    );
+
+    return result.rows[0];
+
+  } catch (error) {
+    console.error('Erreur lors de la modification de la bière :', error.message);
+    throw error;
+  }
+};
+
+
+module.exports = { getAllBeers, getOneBeer, createBeer, updateBeer };

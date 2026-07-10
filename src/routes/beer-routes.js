@@ -136,7 +136,89 @@ router.get('/', beerController.getAllBeers);
  */
 router.get('/:id', beerController.getOneBeer);
 
-
+/**
+ * @swagger
+ * /beers:
+ *   post:
+ *     summary: Crée une nouvelle bière
+ *     tags: [Beers]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name_beer
+ *               - rate_alcohol
+ *               - brewery_id
+ *             properties:
+ *               name_beer:
+ *                 type: string
+ *                 minLength: 2
+ *                 maxLength: 50
+ *                 pattern: "^[a-zA-ZÀ-ÿ0-9']+( [a-zA-ZÀ-ÿ0-9']+)*$"
+ *                 description: Lettres, chiffres, apostrophes et espaces (pas en début/fin)
+ *                 example: La Toulousaine
+ *               resume_beer:
+ *                 type: string
+ *                 maxLength: 350
+ *                 example: Une ambrée du Sud-Ouest
+ *               with_alcohol:
+ *                 type: boolean
+ *                 default: true
+ *                 example: true
+ *               rate_alcohol:
+ *                 type: number
+ *                 minimum: 0
+ *                 maximum: 10
+ *                 example: 6.2
+ *               category_id:
+ *                 type: integer
+ *                 example: 1
+ *               brewery_id:
+ *                 type: integer
+ *                 example: 1
+ *     responses:
+ *       201:
+ *         description: Bière créée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: La bière a bien été enregistrée
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     name_beer:
+ *                       type: string
+ *                       example: La Toulousaine
+ *                     rate_alcohol:
+ *                       type: number
+ *                       example: 6.2
+ *                     brewery_id:
+ *                       type: integer
+ *                       example: 1
+ *       400:
+ *         description: Données invalides (règle de validation non respectée)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Les informations entrées sont incorrectes
+ *                 errors:
+ *                   type: object
+ *       500:
+ *         description: Erreur serveur
+ */
 router.post('/', beerController.createBeer);
+
+router.patch('/:id', beerController.updateBeer);
 
 module.exports = router;

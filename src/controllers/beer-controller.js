@@ -1,5 +1,5 @@
 const beerRepository = require('../repositories/beer-repository');
-const { createBeerSchema } = require('../validators/beer-validator');
+const { createBeerSchema, updateBeerSchema } = require('../validators/beer-validator');
 
 async function getAllBeers(req, res, next) {
   try {
@@ -32,7 +32,6 @@ async function getOneBeer(req, res, next) {
 async function createBeer(req, res, next) {
   try {
     const newBeer = req.body
-
     // validation zod
     const result = createBeerSchema.safeParse(newBeer)
     if (!result.success) {
@@ -48,4 +47,28 @@ async function createBeer(req, res, next) {
   }
 };
 
-module.exports = { getAllBeers, getOneBeer, createBeer };
+async function updateBeer(req, res, next) {
+  try {
+    const id = req.params.id;
+    const updatedBeer = req.body;
+
+    // validation zod
+    const result = updateBeerSchema.safeParse(updatedBeer)
+    if (!result.success) {
+      res.status(400).json({ message: 'Les informations entrées sont incorrectes', errors: result.error });
+      return;
+    }
+
+    const updateResult = await beerRepository.updateBeer(id, result.data);
+    if (!updateResult) {
+      res.status(404).json({ message: 'La bière ne peut être modifiée car elle n\'existe pas' });
+      return;
+    }
+    res.status(200).json({ message: 'La bière a bien été modifée', data: updateResult });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getAllBeers, getOneBeer, createBeer, updateBeer };
