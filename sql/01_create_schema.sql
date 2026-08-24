@@ -1,5 +1,5 @@
 CREATE TABLE users(
-   user_id IDENTITY,
+   user_id INT GENERATED ALWAYS AS IDENTITY,
    firstname_user VARCHAR(50),
    lastname_user VARCHAR(50),
    nickname_user VARCHAR(50) NOT NULL,
@@ -17,13 +17,13 @@ CREATE TABLE users(
 );
 
 CREATE TABLE category(
-   category_id IDENTITY,
+   category_id INT GENERATED ALWAYS AS IDENTITY,
    name_category VARCHAR(50) NOT NULL,
    PRIMARY KEY(category_id)
 );
 
 CREATE TABLE brewery(
-   brewery_id IDENTITY,
+   brewery_id INT GENERATED ALWAYS AS IDENTITY,
    brewery_name VARCHAR(50) NOT NULL,
    brewery_country VARCHAR(50) NOT NULL,
    brewery_adress VARCHAR(255),
@@ -34,13 +34,13 @@ CREATE TABLE brewery(
 );
 
 CREATE TABLE ingredient(
-   ingredient_id IDENTITY,
+   ingredient_id INT GENERATED ALWAYS AS IDENTITY,
    ingredient_name VARCHAR(50) NOT NULL,
    PRIMARY KEY(ingredient_id)
 );
 
 CREATE TABLE beer(
-   beer_id IDENTITY,
+   beer_id INT GENERATED ALWAYS AS IDENTITY,
    name_beer VARCHAR(50) NOT NULL,
    resume_beer TEXT,
    with_alcohol BOOLEAN NOT NULL DEFAULT true,
@@ -55,7 +55,7 @@ CREATE TABLE beer(
 );
 
 CREATE TABLE opinion(
-   opinion_id IDENTITY,
+   opinion_id INT GENERATED ALWAYS AS IDENTITY,
    resume_opinion TEXT,
    note_opinion INT NOT NULL,
    brewery_id INT,
@@ -69,7 +69,7 @@ CREATE TABLE opinion(
 );
 
 CREATE TABLE image(
-   image_id IDENTITY,
+   image_id INT GENERATED ALWAYS AS IDENTITY,
    pathname_image VARCHAR(255) NOT NULL,
    beer_id INT NOT NULL,
    PRIMARY KEY(image_id),
@@ -95,7 +95,7 @@ CREATE TABLE add_to_favorite(
 -- Bonus 2
 -- table indépendante car table de log donc pas de clé étrangère
 CREATE TABLE beer_log(
-   log_id IDENTITY,
+   log_id INT GENERATED ALWAYS AS IDENTITY,
    log_create_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
    beer_name_log VARCHAR(50),
    action_log VARCHAR(10) NOT NULL DEFAULT 'INSERT'
@@ -116,7 +116,3 @@ CREATE TRIGGER trigger_log_new_beer
 AFTER INSERT ON beer
 FOR EACH ROW
 EXECUTE FUNCTION log_insert_beer();
-
--- test trigger
-INSERT INTO beer (name_beer, resume_beer, with_alcohol, rate_alcohol, category_id, brewery_id)
-VALUES ('La Test', 'Une bière de test', true, 5.0, 1, 1);
